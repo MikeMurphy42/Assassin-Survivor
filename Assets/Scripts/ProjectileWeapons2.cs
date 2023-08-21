@@ -61,6 +61,7 @@ public class ProjectileWeapons2 : Weapon
                         {
                             Vector3 enemyPosition = sortedEnemies[i].transform.position;
                             ShootProjectile(enemyPosition);
+                            SFXManager.instance.PlaySFXPitched(6);
                         }
                     }
                     else
@@ -70,6 +71,7 @@ public class ProjectileWeapons2 : Weapon
                         {
                             Vector3 randomEnemyPosition = enemies[Random.Range(0, enemies.Length)].transform.position;
                             ShootProjectile(randomEnemyPosition);
+                            SFXManager.instance.PlaySFXPitched(6);
                         }
                     }
                 }

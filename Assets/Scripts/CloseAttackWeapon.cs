@@ -52,6 +52,7 @@ public class CloseAttackWeapon : Weapon
             }
 
             Instantiate(damager, damager.transform.position, spawnRotation, holder.transform).gameObject.SetActive(true);
+            SFXManager.instance.PlaySFXPitched(7);
 
             float rotStep = 90f;
             
@@ -78,6 +79,8 @@ public class CloseAttackWeapon : Weapon
                 }
 
                 Instantiate(damager, damager.transform.position, newSpawnRotation, holder.transform).gameObject.SetActive(true);
+                
+                //SFXManager.instance.PlaySFXPitched(7);
             }
         }
     }

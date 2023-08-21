@@ -38,6 +38,7 @@ public class SpinWeapon : Weapon
 
                 Quaternion spawnRotation = Quaternion.Euler(0f, 0f, angle);
                 Instantiate(blackHoleToSpawn, spawnPosition, spawnRotation, holder).gameObject.SetActive(true);
+                SFXManager.instance.PlaySFX(5);
             }
         }
 

@@ -32,6 +32,8 @@ public class WeaponThrower : Weapon
             for (int i = 0; i < stats[weaponLvl].amount; i++)
             {
                 Instantiate(damager, damager.transform.position, damager.transform.rotation).gameObject.SetActive(true);
+                SFXManager.instance.PlaySFXPitched(4);
+                
             }
         }
 
