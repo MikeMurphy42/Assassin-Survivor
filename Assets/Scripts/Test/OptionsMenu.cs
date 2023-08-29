@@ -131,7 +131,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetMasterVol()
     {
-        masterLabel.text = (masterSlider.value + 80).ToString();
+        masterLabel.text = (masterSlider.value + 100).ToString();
         theMixer.SetFloat("Master", masterSlider.value);
         PlayerPrefs.SetFloat("Master", masterSlider.value);
         PlayerPrefs.Save(); // Save changes immediately
@@ -139,7 +139,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetMusicVol()
     {
-        musicLabel.text = (musicSlider.value + 80).ToString();
+        musicLabel.text = (musicSlider.value + 100).ToString();
         theMixer.SetFloat("Music", musicSlider.value);
         PlayerPrefs.SetFloat("Music", musicSlider.value);
         PlayerPrefs.Save(); // Save changes immediately
@@ -147,7 +147,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetSfxVol()
     {
-        sfxLabel.text = (sfxSlider.value + 80).ToString();
+        sfxLabel.text = (sfxSlider.value + 100).ToString();
         theMixer.SetFloat("SFX", sfxSlider.value);
         PlayerPrefs.SetFloat("SFX", sfxSlider.value);
         PlayerPrefs.Save(); // Save changes immediately
@@ -175,7 +175,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetIndividualSfxVolume(int index)
     {
-        individualSfxLabels[index].text = (individualSfxSliders[index].value + 80).ToString();
+        individualSfxLabels[index].text = (individualSfxSliders[index].value + 100).ToString();
         theMixer.SetFloat(sfxParameterNames[index], individualSfxSliders[index].value);
         PlayerPrefs.SetFloat(sfxParameterNames[index], individualSfxSliders[index].value);
         PlayerPrefs.Save(); // Save changes immediately

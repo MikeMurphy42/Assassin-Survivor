@@ -12,6 +12,8 @@ public class EnemyOptions
     public float maxDistanceFromPlayer = 20f;
     public float maxDistanceCheckInterval = 0.5f;
     public int maxActiveEnemies = 5;
+    public float spawnDuration = 30.0f;
+    public bool useWaveStyle = false;
 
     [HideInInspector]
     public List<GameObject> pooledEnemies = new List<GameObject>();
@@ -50,16 +52,15 @@ public class EnemyPooler : MonoBehaviour
 
         foreach (var enemyOption in enemyOptionsList)
         {
-            StartCoroutine(SpawnEnemies(enemyOption)); // start the coroutine to spawn enemies for this type
+            StartCoroutine(SpawnEnemies(enemyOption));
         }
 
         StartCoroutine(CheckEnemiesDistance());
-        StartCoroutine(CheckPlayerPresence()); // start the coroutine to check for player's presence
+        StartCoroutine(CheckPlayerPresence());
     }
 
     void Update()
     {
-        // Update the positions of the minSpawn and maxSpawn to follow the player
         if (target != null && target.gameObject.activeSelf)
         {
             minSpawn.position = target.position + new Vector3(-11f, -7f, 0f);
@@ -70,9 +71,8 @@ public class EnemyPooler : MonoBehaviour
 
     IEnumerator SpawnEnemies(EnemyOptions enemyOptions)
     {
-        yield return new WaitForSeconds(enemyOptions.initialDelay); // wait for initial delay before starting to spawn enemies
+        yield return new WaitForSeconds(enemyOptions.initialDelay);
 
-        // Create initial pool
         for (int i = 0; i < enemyOptions.poolSize; i++)
         {
             GameObject enemy = Instantiate(enemyOptions.enemyPrefab, SelectSpawnPoint(), Quaternion.identity);
@@ -80,11 +80,18 @@ public class EnemyPooler : MonoBehaviour
             enemyOptions.pooledEnemies.Add(enemy);
         }
 
+        float timeSinceSpawnStart = 0.0f;
+
         while (true)
         {
             enemyOptions.spawnTimer += Time.deltaTime;
+            timeSinceSpawnStart += Time.deltaTime;
 
-            // Only spawn enemies if the player is present in the scene
+            if (enemyOptions.useWaveStyle && timeSinceSpawnStart > enemyOptions.spawnDuration)
+            {
+                break;
+            }
+
             if (playerIsPresent && enemyOptions.spawnTimer >= enemyOptions.spawnInterval && enemyOptions.activeEnemyCount < enemyOptions.maxActiveEnemies)
             {
                 enemyOptions.spawnTimer -= enemyOptions.spawnInterval;
@@ -104,33 +111,17 @@ public class EnemyPooler : MonoBehaviour
     public Vector3 SelectSpawnPoint()
     {
         Vector3 spawnPoint = Vector3.zero;
-
         bool spawnVerticalEdge = Random.Range(0f, 1f) > .5f;
 
         if (spawnVerticalEdge)
         {
             spawnPoint.y = Random.Range(minSpawn.position.y, maxSpawn.position.y);
-
-            if (Random.Range(0f, 1f) > .5f)
-            {
-                spawnPoint.x = maxSpawn.position.x;
-            }             else
-            {
-                spawnPoint.x = minSpawn.position.x;
-            }
+            spawnPoint.x = Random.Range(0f, 1f) > .5f ? maxSpawn.position.x : minSpawn.position.x;
         }
         else
         {
             spawnPoint.x = Random.Range(minSpawn.position.x, maxSpawn.position.x);
-
-            if (Random.Range(0f, 1f) > .5f)
-            {
-                spawnPoint.y = maxSpawn.position.y;
-            }
-            else
-            {
-                spawnPoint.y = minSpawn.position.y;
-            }
+            spawnPoint.y = Random.Range(0f, 1f) > .5f ? maxSpawn.position.y : minSpawn.position.y;
         }
 
         return spawnPoint;
@@ -146,10 +137,8 @@ public class EnemyPooler : MonoBehaviour
                 return enemy;
             }
         }
-
         return null;
     }
-
 
     public void DisableEnemy(GameObject enemy)
     {
@@ -185,11 +174,9 @@ public class EnemyPooler : MonoBehaviour
                     }
                 }
             }
-
             yield return null;
         }
     }
-
 
     IEnumerator CheckPlayerPresence()
     {
@@ -199,6 +186,4 @@ public class EnemyPooler : MonoBehaviour
             playerIsPresent = target.gameObject.activeSelf;
         }
     }
-
-    
 }
