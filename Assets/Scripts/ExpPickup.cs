@@ -52,6 +52,8 @@ public class ExpPickup : MonoBehaviour
         {
             ExperianceLevelController.instance.GetExp(expValue);
             Destroy(gameObject);
+            SFXManager.instance.PlaySFXPitched(4);
+            Debug.Log("EXP-PICKUP Script");
         }
     }
 }

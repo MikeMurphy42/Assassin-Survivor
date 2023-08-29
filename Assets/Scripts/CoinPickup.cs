@@ -55,6 +55,7 @@ public class CoinPickup : MonoBehaviour
             //ExperianceLevelController.instance.GetExp(expValue);
             
             CoinController.instance.AddCoins(coinAmount);
+            SFXManager.instance.PlaySFXPitched(3);
             
             Destroy(gameObject);
         }

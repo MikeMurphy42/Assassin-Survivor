@@ -150,6 +150,7 @@ public class EnemyPooler : MonoBehaviour
         return null;
     }
 
+
     public void DisableEnemy(GameObject enemy)
     {
         foreach (var enemyOption in enemyOptionsList)
@@ -179,7 +180,7 @@ public class EnemyPooler : MonoBehaviour
                     {
                         if (enemy.activeInHierarchy && Vector3.Distance(target.position, enemy.transform.position) > enemyOption.maxDistanceFromPlayer)
                         {
-                            DisableEnemy(enemy);
+                            enemy.GetComponent<EnemyController>().DisableEnemy();
                         }
                     }
                 }
@@ -189,6 +190,7 @@ public class EnemyPooler : MonoBehaviour
         }
     }
 
+
     IEnumerator CheckPlayerPresence()
     {
         while (true)
@@ -197,6 +199,6 @@ public class EnemyPooler : MonoBehaviour
             playerIsPresent = target.gameObject.activeSelf;
         }
     }
-}
 
-           
+    
+}

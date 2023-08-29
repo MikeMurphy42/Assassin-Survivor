@@ -19,6 +19,11 @@ public class UIController : MonoBehaviour
     public TMP_Text endTimeText;
     public string mainMenuName;
     public GameObject pauseScreen;
+    
+    // Options
+    public GameObject OptionsScreen;
+    //public GameObject OptionsMenu;
+    
 
     public float timeScaleDelay = 0f; // Delay before timescale change starts
     public float timeScaleDuration = 1f; // Duration of the timescale transition
@@ -141,6 +146,50 @@ public class UIController : MonoBehaviour
             }
         }
     }
+    
+    public void ShowHideOptions()
+    {
+        if (!OptionsScreen.activeInHierarchy)
+        {
+            OptionsScreen.SetActive(true);
+        }
+        else
+        {
+            OptionsScreen.SetActive(false);
+        } 
+        /*if (!OptionsMenu.activeInHierarchy)
+        {
+            //OptionsMenu.SetActive(true);
+        }
+        else
+        {
+            OptionsMenu.SetActive(false);
+        }*/
+    }
+    
+    public void OpenOption()
+    {
+        OptionsScreen.SetActive(true);
+    }
+
+    public void CloseOption()
+    {
+        OptionsScreen.SetActive(false);
+    }
+    
+    
+    public void Options()
+    {
+        // Add Options Here`                     
+        //Debug.Log("No Options YETTT?"); 
+        ShowHideOptions();
+    }
+    
+    /*if (OptionsScreen.activeInHierarchy && Cursor.lockState != CursorLockMode.None)
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }*/ 
     
     public void StartSkipLevelTransition()
     {

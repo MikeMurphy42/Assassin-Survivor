@@ -151,6 +151,7 @@ public class EnemyController : MonoBehaviour
         }
 
         DamageNumberController.instance.SpawnDamage(damageToTake, transform.position);
+        SFXManager.instance.PlaySFXPitched(1);
     }
 
     public void TakeDamage(float damageToTake, bool shouldKnockback)
@@ -163,7 +164,29 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    
+    
     private void Die()
+    {
+        enemyAnimator.PlayDeathAnimation();
+        //enemyAnimator.PlayDeathSound(); // Add this line to play the death sound
+        enemyAnimator.SpawnDeathEffect(transform.position);
+
+        SFXManager.instance.PlaySFXPitched(0);
+        // Disable the enemy using the EnemyPooler script
+        enemyPooler.DisableEnemy(gameObject);
+        
+
+        ExperianceLevelController.instance.SpawnExp(transform.position, expToGive);
+
+        if (Random.value <= coinDropRate)
+        {
+            CoinController.instance.DropCoin(transform.position, coinValue);
+        }
+    }
+    
+    
+    /*private void Die()
     {
         enemyAnimator.PlayDeathAnimation();
         enemyAnimator.SpawnDeathEffect(transform.position);
@@ -178,7 +201,8 @@ public class EnemyController : MonoBehaviour
             CoinController.instance.DropCoin(transform.position, coinValue);
         }
         
-    }
+    }*/
+
 
     private void Attack()
     {
@@ -187,7 +211,7 @@ public class EnemyController : MonoBehaviour
         PlayerHealthController.instance.TakeDamage(damage);
     }
 
-    private void DisableEnemy()
+    public void DisableEnemy()
     {
         // Play death animation
         enemyAnimator.PlayDeathAnimation();
